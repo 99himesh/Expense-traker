@@ -1,93 +1,76 @@
-import { useRef, useState } from "react";
-import { Button, Card, Col, Container, Form, Row } from "react-bootstrap";
-// import { useHistory } from "react-router-dom";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import React,{useState,useRef} from "react";
+import {Navigate, useNavigate} from 'react-router-dom'
+import LoginPage from "./login";
+import {auth} from "../firebase/firebase"
+const Signup = () => {
+    const [isLogin,setisLogin]=useState(false);
+    const [error,setError]=useState(false);
+    const [created,setCreated]=useState(false);
+    const emailinputref=useRef("");
+    const passwordinputref=useRef("");
+    const confirmpasswordref=useRef("");
+    const navigate=useNavigate();
+     
+  const submitHandler= async(event)=>{
+    event.preventDefault();
+    setCreated(false);
+    const enterdemail=emailinputref.current.value;
+    const enteredpassword=passwordinputref.current.value;
+    const enteredconfirmpassword=confirmpasswordref.current.value;
 
-const SignUp = (prop) => {
-    const emailRef = useRef();
-    const passRef = useRef();
-    const confRef = useRef();
-    // const history = useHistory();
-    const [error, setError] = useState(false);
-    const [created, setCreated] = useState(false);
-
-    const onSubmitHandler = async (e) => {
-        e.preventDefault();
-        setCreated(false);
-        if (!emailRef.current.value.includes('@') || passRef.current.value.length < 6 || passRef.current.value !== confRef.current.value) {
-            setError(true);
-            return;
-        }
-        setError(false);
-        const user = {
-            email: emailRef.current.value,
-            password: passRef.current.value
-        }
-        try {
-            const url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDNiGP2YbgqnIMHk-jicOFmjCh_0TUERf8';
-            const response = await fetch(url, {
-                method: 'POST',
-                body: JSON.stringify({ ...user, returnSecureToken: true }),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            const transformedResponse = await response.json();
-            if (response.ok) {
-                setCreated(true);
-            } else {
-                let errorMessage = 'Authentication Failed!';
-                if (transformedResponse.error.message) {
-                    errorMessage = transformedResponse.error.message;
-                }
-                throw new Error(errorMessage);
-            }
-        } catch (err) {
-            alert(err.message);
-        }
+    if(!enterdemail.includes('@') || enteredpassword!=enteredconfirmpassword || enteredpassword.length<6){
+      setError(true);
+      return ;
     }
-    const onLoginClickHandler = () => {
-        // history.replace('/login');
-        console.log('user successfully logged in');
-    }
-
-    return (
-        <Container className="my-5">
-            <Row className="justify-content-center">
-                <Col xs={4}>
-                    <Card className="shadow-lg">
-                        <Card.Header className="text-center p-3">
-                            <h4>SignUp</h4>
-                        </Card.Header>
-                        <Card.Body style={{ backgroundColor: '#f7f5f0' }}>
-                            <Form>
-                                {error && <p className="text-center text-danger">Invalid data.</p>}
-                                {created && <p className="text-center text-info">Account Created.</p>}
-                                <Form.Group className="mb-3">
-                                    <Form.Control placeholder="Email" id="email" type="email" required ref={emailRef} />
-                                </Form.Group>
-                                <Form.Group className="mb-3">
-                                    <Form.Control placeholder="Password" id="pass" type="password" required ref={passRef} />
-                                </Form.Group>
-                                <Form.Group className="mb-3">
-                                    <Form.Control placeholder="confirm password" id="conPass" type="password" required ref={confRef} />
-                                </Form.Group>
-                                <div className="text-center">
-                                    <Button style={{width:'100%',borderRadius:'20px'}} type="submit" onClick={onSubmitHandler}>SignUp</Button>
-                                </div>
-                            </Form>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
-            <Row className="justify-content-center pt-3">
-                <Col xs={4}>
-                    <div className="d-grid">
-                        <Button style={{background:'lightblue',border:'0'}} onClick={onLoginClickHandler}>Have an account? Login</Button>
-                    </div>
-                </Col>
-            </Row>
-        </Container>
-    );
+    setError(false);
+   createUserWithEmailAndPassword(auth,enterdemail,enteredpassword,enteredconfirmpassword).
+   then(async(res)=>{
+     const user=res.user;
+     await updateProfile(user,{
+        displayName:enterdemail
+     });
+      navigate('/');
+    
+   }).catch((err)=>{
+   alert(err.message)
+   })
+ 
 }
 
-export default SignUp;
+const logInHandler=()=>{
+   navigate('/login')
+}
+    return (<div>
+        <div className="container-fluid  bg-light text-center" style={{ padding: '100px 0' }}>
+            <div className="row  bg-light" style={{ width: '25%', border: '1px solid black', margin: '0 auto' }}>
+                <h4 className="py-3">Sign up</h4>
+                 {error && <p style={{color:'red'}}>Signup Failed</p>}
+                 {!error && <p style={{color:'green'}}>SuccessFull Signup</p>}
+
+                <form onSubmit={submitHandler}>
+                    <div>
+                        <input className="p-2" ref={emailinputref} type="text" placeholder="Email" style={{ width: '90%', borderRadius: '5px', border: '0', margin: '10px' }} ></input>
+                    </div>
+                    <div>
+                        <input className="p-2" ref={passwordinputref} type="password" placeholder="password" style={{ width: '90%', borderRadius: '5px', border: '0', margin: '10px ' }}  ></input>
+                    </div>
+                    <div>
+                        <input className="p-2" ref={confirmpasswordref} type="passsword" placeholder="confirm password" style={{ width: '90%', borderRadius: '5px', border: '0', margin: '10px ' }} ></input>
+                    </div>
+                    <div>
+                        <button className="bg-primary my-4 p-1" style={{ borderRadius: '20px', border: '0', color: 'white', width: '90%' }}>Sign up</button>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <button onClick={logInHandler} className="my-3 py-2" style={{ width: '25%', background: 'blue', border: '0', background: '#ADD8E6' }}>Have an account? Login</button>
+            </div>
+        </div>
+    </div>)
+
+
+
+}
+
+export default Signup;
