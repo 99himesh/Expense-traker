@@ -4,9 +4,12 @@ import AuthContext from "./Authcontext";
 const AuthProvider = (props) => {
 
     const initialToken = localStorage.getItem('token');
-    const initialUserId = localStorage.getItem('uID');
+    const initialUserId = localStorage.getItem('uID'); 
+    const initialUsername = localStorage.getItem('dn');  
+
     const [token, setToken] = useState(initialToken);
     const [userId, setUserId] = useState(initialUserId);
+    const [name,setname]=useState(initialUsername );
     const userIsLoggedIn = !!token;
 
     const loginHandler = (tkn,uID) => {
@@ -17,7 +20,7 @@ const AuthProvider = (props) => {
     }
     const logoutHandler = () => {
         setToken(null);
-        setUserId('');
+        setUserId('');  
         localStorage.clear('token');
         localStorage.clear('uID');
     }
