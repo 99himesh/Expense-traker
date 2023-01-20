@@ -1,4 +1,5 @@
-import React,{useEffect, useRef, useState} from "react";
+import React,{ useEffect, useRef, useState} from "react";
+// import AuthContext from "../context/Authcontext";
 
 
 
@@ -6,7 +7,54 @@ const ContactDetails = () => {
     const enteredNameRef=useRef();
     const enteredPhotoRef=useRef();
     const [cancel ,setCancel ]=useState(false);
- 
+    const [verify ,setVerify ]=useState(false);
+
+    
+
+    const getData=async()=>{
+        try {
+            const response = await fetch(
+              "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDOBKsBkoQ9LTBCmp3LobdP7sg6C7JCzRM",
+              {
+                method: "POST",
+                body: JSON.stringify({
+                   idToken:localStorage.getItem("token"),
+                 
+                }),
+                header: {
+                  "content-Type": "application/json",
+                },
+              });
+              const transformedResponse = await response.json();
+              debugger
+              console.log(response);
+              console.log(transformedResponse);
+              if (response.ok) {
+                 if(transformedResponse.users[0].emailVerified){
+                    setVerify(true);
+                 }else{
+                    setVerify(false);
+                 }
+              } else {
+                  let errorMessage = 'Authentication Failed!';
+                  if (transformedResponse.error.message) {
+                      errorMessage = transformedResponse.error.message;
+                  }
+                  throw new Error(errorMessage);
+              }
+          } catch (err) {
+              alert(err.message);
+          }
+      
+        
+    }
+
+   useEffect(()=>{
+    
+    getData();
+    
+   })
+   
    
     useEffect(()=>{
         enteredNameRef.current.value=localStorage.getItem("dn");
@@ -36,7 +84,8 @@ const ContactDetails = () => {
         });
         const transformedResponse = await response.json();
         if (response.ok) {
-          
+        //   {ctx.isVarified(true) && 
+
         } else {
             let errorMessage = 'Authentication Failed!';
             if (transformedResponse.error.message) {
@@ -55,6 +104,39 @@ const ContactDetails = () => {
     setCancel(true);
  }
  
+ const verifyEmail=async()=>{
+    
+    try {
+        const response = await fetch(
+          "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDOBKsBkoQ9LTBCmp3LobdP7sg6C7JCzRM",
+          {
+            method: "POST",
+            body: JSON.stringify({
+               idToken:localStorage.getItem("token"),
+               requestType:"VERIFY_EMAIL"
+            }),
+            header: {
+              "content-Type": "application/json",
+            },
+          });
+          
+          const transformedResponse = await response.json();
+          debugger
+          console.log(response);
+          console.log(transformedResponse);    
+          if (response.ok) {
+         
+          } else {
+              let errorMessage = 'Authentication Failed!';
+              if (transformedResponse.error.message) {
+                  errorMessage = transformedResponse.error.message;
+              }
+              throw new Error(errorMessage);
+          }
+      } catch (err) {
+          alert(err.message);
+      }
+ }
 
 
 
@@ -89,6 +171,7 @@ const ContactDetails = () => {
                     </div>
                     <div>
                         <button onClick={updateDetails} >Update</button>
+                       { !verify && <button onClick={verifyEmail} className="mx-5">verify</button>}
                     </div>
 
 

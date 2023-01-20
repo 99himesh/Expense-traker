@@ -34,11 +34,16 @@ const LoginPage = () => {
             localStorage.setItem("dn", dispname);
             const user = res.user;
             console.log(user);
-            navigate('/');
+        
 
-         }).catch((err) => {
-            alert(err.message)
-         })
+            navigate("/")
+
+            }).catch((err) => {
+               alert(err.message)
+            })
+
+      
+
 
    }
 

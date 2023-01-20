@@ -10,6 +10,7 @@ const AuthProvider = (props) => {
     const [token, setToken] = useState(initialToken);
     const [userId, setUserId] = useState(initialUserId);
     const [name,setname]=useState(initialUsername );
+    // const [isverify,setVerify]=useState(false);
     const userIsLoggedIn = !!token;
 
     const loginHandler = (tkn,uID) => {
@@ -17,6 +18,7 @@ const AuthProvider = (props) => {
         localStorage.setItem('token', tkn);
         setUserId(uID);
         localStorage.setItem('uID',uID);
+        
     }
     const logoutHandler = () => {
         setToken(null);

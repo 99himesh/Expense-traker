@@ -30,7 +30,7 @@ const Signup = () => {
      await updateProfile(user,{
         displayName:enterdemail
      });
-      navigate('/');
+      navigate('/login');
     
    }).catch((err)=>{
    alert(err.message)
