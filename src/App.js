@@ -9,6 +9,7 @@ import Home from './component/home/home';
 import AuthContext from './component/context/Authcontext';
 import ContactDetails from './component/ExpenseDetail.js/contactDetail';
 import ForgetPassword from './component/forgetPassword/forgetPassword';
+import AddExpenses from './component/add Expenses/Addexpenses';
 function App() {
  const ctx= useContext(AuthContext);
   return (
@@ -21,6 +22,8 @@ function App() {
         <Route exact path="/signup" element={<Signup/>}></Route>
         <Route path="/Login"  element={<LoginPage />}></Route>
         <Route path="/forget"  element={<ForgetPassword />}></Route>
+        <Route path="/addexpenses"  element={<AddExpenses />}></Route>
+
       </Routes>
 
 

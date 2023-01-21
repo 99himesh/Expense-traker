@@ -1,4 +1,6 @@
 import React,{ useEffect, useRef, useState} from "react";
+import { useNavigate } from "react-router-dom";
+import AddExpenses from "../add Expenses/Addexpenses";
 // import AuthContext from "../context/Authcontext";
 
 
@@ -8,6 +10,7 @@ const ContactDetails = () => {
     const enteredPhotoRef=useRef();
     const [cancel ,setCancel ]=useState(false);
     const [verify ,setVerify ]=useState(false);
+    const navigate=useNavigate();
 
     
 
@@ -137,7 +140,9 @@ const ContactDetails = () => {
           alert(err.message);
       }
  }
-
+ const AddExpenses=()=>{
+    navigate("/addexpenses")
+ }
 
 
     return (
@@ -172,6 +177,8 @@ const ContactDetails = () => {
                     <div>
                         <button onClick={updateDetails} >Update</button>
                        { !verify && <button onClick={verifyEmail} className="mx-5">verify</button>}
+                       <button className="float-end" onClick={AddExpenses} >Add Expenses</button>
+
                     </div>
 
 
