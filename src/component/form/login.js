@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate, Navigate, Link } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebase"
 import AuthContext from "../context/Authcontext";
@@ -34,24 +34,17 @@ const LoginPage = () => {
             localStorage.setItem("dn", dispname);
             const user = res.user;
             console.log(user);
-        
-
             navigate("/")
-
             }).catch((err) => {
                alert(err.message)
             })
-
-      
-
-
    }
-
-
    const signuphandler = () => {
       navigate("/signup");
    }
-
+ const forgetPassword=()=>{
+  navigate("/forget")
+ }
 
 
    return (<div>
@@ -68,7 +61,7 @@ const LoginPage = () => {
                </div>
                <div>
                   <button className="bg-primary  p-1" style={{ width: '80%', margin: '0 auto', border: '0', borderRadius: '20px' }}>Login</button>
-                  <p className="py-1" style={{ color: 'blue', textDecoration: 'underline' }}>Forget Password</p>
+                  <p onClick={forgetPassword}  className="py-1" style={{ color: 'blue', textDecoration: 'underline' }}>Forget Password</p>
                </div>
             </form>
          </div>

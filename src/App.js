@@ -8,6 +8,7 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './component/home/home';
 import AuthContext from './component/context/Authcontext';
 import ContactDetails from './component/ExpenseDetail.js/contactDetail';
+import ForgetPassword from './component/forgetPassword/forgetPassword';
 function App() {
  const ctx= useContext(AuthContext);
   return (
@@ -17,8 +18,9 @@ function App() {
       <Routes>
         <Route path="/contact" element={<ContactDetails/>}></Route>
         <Route path='/' element={<Home/>}></Route>
-        <Route path="/signup" element={<Signup/>}></Route>
-      <Route path="/Login"  element={<LoginPage />}></Route>
+        <Route exact path="/signup" element={<Signup/>}></Route>
+        <Route path="/Login"  element={<LoginPage />}></Route>
+        <Route path="/forget"  element={<ForgetPassword />}></Route>
       </Routes>
 
 
