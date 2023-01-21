@@ -5,8 +5,6 @@ import { auth } from "../firebase/firebase"
 import AuthContext from "../context/Authcontext";
 
 
-
-
 const LoginPage = () => {
    const [error, setError] = useState(false);
    const ctx = useContext(AuthContext);
