@@ -5,14 +5,14 @@ const AuthProvider = (props) => {
 
     const initialToken = localStorage.getItem('token');
     const initialUserId = localStorage.getItem('uID'); 
-    const initialUsername = localStorage.getItem('dn');  
+    // const initialUsername = localStorage.getItem('dn');  
 
     const [token, setToken] = useState(initialToken);
     const [userId, setUserId] = useState(initialUserId);
-    const [name,setname]=useState(initialUsername );
+    // const [name,setname]=useState(initialUsername );
     // const [isverify,setVerify]=useState(false);
     const userIsLoggedIn = !!token;
-
+  
     const loginHandler = (tkn,uID) => {
         setToken(tkn);
         localStorage.setItem('token', tkn);
