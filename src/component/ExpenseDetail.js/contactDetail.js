@@ -146,38 +146,38 @@ const ContactDetails = () => {
 
 
     return (
-        <div className="container-fluid py-5">
+        <div className="container-fluid ">
             <div className="row">
                 <div className=" col-4">
                     <h6 >winners never quite,Quitters never win</h6>
                 </div>
                 <div className="col-4"></div>
-                <div className="col-4 text-start">
-                    <p  >Your profile is 64% completed.A complete profile has higher chance of loading a job complete now</p>
-
+                <div className="col-4 text-start " >
+                    <p style={{background:' rgb(196, 164, 132)',padding:'4px',borderRadius:'10px'}} >Your profile is <strong>64%</strong> completed.A complete profile has higher chance of loading a job <span style={{color:'blue'}}>complete now</span></p>
+                  
                 </div>
                 <hr />
             </div>
 
             <div className="row">
-                <div className="col-4"></div>
-                <div className="col-8 ">
+                <div className="col-3"></div>
+                <div className="col-9 ">
                     <div>
-                        <h4 className="text-start" style={{ display: 'inline-block' }}>Contact Details </h4>
-                        <button onClick={cancelHandler}  className="float-end">cancel</button>
+                        <h5 className="text-start" style={{ display: 'inline-block' }}>Contact Details </h5>
+                        <button onClick={cancelHandler} style={{border:'2px solid red' ,color:'red',background:'white',borderRadius:'5px'}}  className="float-end">cancel</button>
                     </div>
                     <div>
                         <form className="py-5">
-                            <label style={{ fontWeight: "bold", padding: '0 20px' }} >Full Name</label>
-                            <input ref={enteredNameRef} className="px-2 py-0"></input>
-                            <label style={{ fontWeight: "bold", padding: '0 20px' }} >Profile photo URL</label>
-                            <input ref={enteredPhotoRef} className="px-2 py-0"></input>
+                            <label style={{ fontWeight: "bold", padding: '0 20px' }} >Full Name:</label>
+                            <input style={{ width:'30%'}} ref={enteredNameRef} className="px-1 py-0"></input>
+                            <label style={{ fontWeight: "bold", padding: '0 20px' }} >Profile photo URL:</label>
+                            <input  style={{ width:'30%'}} ref={enteredPhotoRef} className="px-1 py-0"></input>
                         </form>
                     </div>
                     <div>
-                        <button onClick={updateDetails} >Update</button>
-                       { !verify && <button onClick={verifyEmail} className="mx-5">verify</button>}
-                       <button className="float-end" onClick={AddExpenses} >Add Expenses</button>
+                        <button onClick={updateDetails} style={{background:'rgb(160,82,45)',color:'white',border:'0',borderRadius:'5px'}} >Update</button>
+                       { !verify && <button style={{background:'rgb(160,82,45)',color:'white',border:'0',borderRadius:'5px'}}  onClick={verifyEmail} className="mx-5">verify</button>}
+                       <button style={{background:'rgb(160,82,45)',color:'white',border:'0',borderRadius:'5px'}}  className="float-end" onClick={AddExpenses} >Add Expenses</button>
 
                     </div>
 

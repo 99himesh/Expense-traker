@@ -41,8 +41,8 @@ const ForgetPassword=()=>{
          <h5> Sharpner </h5> 
             <form>
                <label className="py-3">Enter the Email which we have register</label>
-               <input ref={emailinputRef} style={{width:'100%'}} className="px-1 d-block my-3" type="email"  placeholder="Email"></input> 
-               <button onClick={sendForgetLink}>Send link</button>
+               <input  ref={emailinputRef} style={{width:'100%'}} className="px-1 d-block my-3" type="email"  placeholder="Email"></input> 
+               <button  onClick={sendForgetLink}  style={{background:'rgb(160,82,45)',color:'white',border:'0',borderRadius:'5px'}} >Send link</button>
             </form>
         </div>
            

@@ -3,24 +3,21 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import AuthProvider from './component/context/Contextprovider';
+// import AuthProvider from './component/context/Contextprovider';
 import { BrowserRouter } from 'react-router-dom';
-import ExpenseProvider from './component/context/ExpenseProvider';
-
+// import ExpenseProvider from './component/context/ExpenseProvider';
+import store from './stores/index';
+import { Provider } from 'react-redux/es';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  
-  <AuthProvider>
-    <ExpenseProvider>
+     <Provider store={store}>
             <React.StrictMode>
       <BrowserRouter>
             <App />
     </BrowserRouter>
-          
       </React.StrictMode>
-      </ExpenseProvider>
-
-    </AuthProvider>    
+      </Provider>
+ 
 );
 
 

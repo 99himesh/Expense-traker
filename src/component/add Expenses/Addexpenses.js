@@ -22,8 +22,7 @@
 //             header: {
 //               "content-Type": "application/json",
 //             },
-//           });
-          
+//           });          
 //           const transformedResponse = await response.json();
 //           // debugger
 //           // console.log(response);
@@ -213,13 +212,20 @@
 // }
 // export default AddExpenses;
 
-import React, { useRef, useEffect, useContext, useState } from "react";
-import AuthContext from "../context/Authcontext";
-import ExpenseContext from "../context/expensecontext";
+import React, { useRef, useEffect } from "react";
+// import AuthContext from "../context/Authcontext";
+// import ExpenseContext from "../context/expensecontext";
 import axios from '../axios/axios';
+import { useDispatch, useSelector } from "react-redux";
+import { ExpenseAction } from "../../stores/ExpenseSlice";
+
 const AddExpenses = () => {
-  const ctx = useContext(AuthContext)
-  const [expenseList, setExpenseList] = useState([])
+  const expenseLists=useSelector(state=>state.expense.expense)
+  const dispatch= useDispatch();
+  // const ctx = useContext(AuthContext)
+  // const ifLoggedIn=useSelector(state=>state.loggedIn)
+  // const [expenseLists, setExpenseList] = useState([])
+  const userid=useSelector(state=>state.auth.userId)
 
   const moneyinputRef = useRef();
   const descriptioninputRef = useRef();
@@ -230,7 +236,7 @@ const AddExpenses = () => {
   // const expCtx = useContext(ExpenseContext);
 
   const readExpense = async () => {
-    const response = await axios.get(`/${ctx.userId}.json`)
+    const response = await axios.get(`/${userid.userId}.json`)
     // debugger
     // console.log(response.data);
     const allExpenseArr = [];
@@ -238,29 +244,32 @@ const AddExpenses = () => {
       allExpenseArr.push({ ...response.data[key], key: key });
     }
     // console.log(allExpenseArr);
-    setExpenseList(allExpenseArr);
+    // setExpenseList(allExpenseArr);
+    dispatch(ExpenseAction.replace({List:allExpenseArr }))
+
     // debugger;
   }
   useEffect(() => {
     readExpense();
-  }, [expenseList])
+  }, [expenseLists])
 
   const deleteExpenseHandler = async (key) => {
-    debugger
-    const response = await axios.delete(`/${ctx.userId}/${key}.json`);
+    const response = await axios.delete(`/${userid.userId}/${key}.json`);
     // console.log(response);
-    const newList = expenseList.filter((itm) => itm.key !== key)
-    console.log(expenseList);
+    const newList = expenseLists.filter((itm) => itm.key !== key)
+    console.log(expenseLists);
     console.log(newList);
-    setExpenseList(newList);
+    // setExpenseList(newList);
+     dispatch(ExpenseAction.replace({List:newList }))
+
 
   }
 
   const editExpenseHandler = (id) => {
     // moneyinputRef.current.value="12";
     // descriptioninputRef.current.value="b";
-    const exp=expenseList.filter((itm) =>{
-           return itm.id==id  
+    const exp=expenseLists.filter((itm) =>{
+           return itm.id===id  
           });
     
     moneyinputRef.current.value=exp[0].money;
@@ -279,7 +288,8 @@ const AddExpenses = () => {
       console.log(response);
       // console.log(transformedResponse);
       if (response.statusText === "OK") {
-        setExpenseList([...expenseList,expense])
+        // setExpenseList([...expenseLists,expense])
+        dispatch(ExpenseAction.addExpense({exp:expense}))
         moneyinputRef.current.value="";
         // categaryinputRef.current.value="";
         descriptioninputRef.current.value="";
@@ -307,7 +317,7 @@ const AddExpenses = () => {
     const id = enteredMoney + enteredDescription;
     const obj = {
       id: id,
-      uID: ctx.userId,
+      uID: userid.userId,
       money: enteredMoney,
       categary: enteredCategary,
       description: enteredDescription
@@ -315,18 +325,20 @@ const AddExpenses = () => {
     postData(obj);
   }
 
-
-  const itemlist = expenseList.map((itm) => {
+  
+  console.log(expenseLists);
+  const itemlist = expenseLists.map((itm) => {
+   
     return (
       <div key={itm.id} >
-        <div>
+        <div className="container">
           <p>Spent Money :-{itm.money} </p>
           <p> Description :-{itm.description}</p>
           <p> categary:- {itm.categary}</p>
         </div>
         <div>
-          <button onClick={deleteExpenseHandler.bind(null, itm.key)} >Delete</button>
-          <button onClick={editExpenseHandler.bind(null, itm.id)} className="mx-3" >Edit</button>
+          <button style={{background:'rgb(160,82,45)',color:'white',border:'0',borderRadius:'5px'}} onClick={deleteExpenseHandler.bind(null, itm.key)} >Delete</button>
+          <button style={{background:'rgb(160,82,45)',color:'white',border:'0',borderRadius:'5px'}} onClick={editExpenseHandler.bind(null, itm.id)} className="mx-3" >Edit</button>
         </div>
       </div>
     )
@@ -334,25 +346,32 @@ const AddExpenses = () => {
 
 
 
-
   return (
     <div className="container py-5">
       <div className="row" >
+        <div className="col-8">
         <form onSubmit={submitExpenseHandler}>
-          <input  style={{ width: '100%' }} ref={moneyinputRef} className="my-3" type="number" placeholder="monet Spent" ></input>
-          <input style={{ width: '100%' }} ref={descriptioninputRef} className="my-3" type="text" placeholder="description"></input>
-          <select style={{ width: '100%' }} ref={categaryinputRef} className="my-3">
+          <div>
+          <input  style={{ width: '50%' }} ref={moneyinputRef} className="my-3" type="number" placeholder="monet Spent" ></input>
+          </div>
+          <div>
+          <input style={{ width: '50%' }} ref={descriptioninputRef} className="my-3" type="text" placeholder="description"></input>
+          </div>
+          <div>
+          <select style={{ width: '50%' }} ref={categaryinputRef} className="my-3">
               <option>Food</option>
               <option>Petrol</option>
               <option>Salary</option>
           </select>
-          <button   style={{ width: '100%' }} > Add Expense</button>
+          </div>
+
+          <button   style={{ width: '50%',background:'rgb(160,82,45)',color:'white',border:'0',borderRadius:'5px' }} > Add Expense</button>
         </form>
-
-
       </div>
-      <div className=" row"> {itemlist}</div>
+      </div>
+      <div className="row py-3"> {itemlist}</div>
 
+   
     </div>
   )
 

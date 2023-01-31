@@ -2,13 +2,14 @@ import React, { useContext, useRef, useState } from "react";
 import { useNavigate, Navigate, Link } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebase"
-import AuthContext from "../context/Authcontext";
-
+// import AuthContext from "../context/Authcontext";
+import { useDispatch } from "react-redux";
+import { AuthAction } from "../../stores/AuthSlice";
 
 const LoginPage = () => {
+ const dispatch=useDispatch();
    const [error, setError] = useState(false);
-   const ctx = useContext(AuthContext);
-
+   // const ctx = useContext(AuthContext);  
    const navigate = useNavigate();
    const enteredemailref = useRef();
    const enteredpasswordref = useRef();
@@ -25,13 +26,17 @@ const LoginPage = () => {
       setError(false);
       signInWithEmailAndPassword(auth, enterdemail, enteredpassword).
          then(async (res) => {
+
             const token = res.user.accessToken;
             const uid = res.user.uid;
             const dispname = res.user.displayName;
-            ctx.login(token, uid);
+            // ctx.login(token, uid);
+            console.log(token);
+            console.log(uid);
+            console.log(res);
+            dispatch(AuthAction.IsLoggedIn({tkn:token,uid:uid}))
             localStorage.setItem("dn", dispname);
             const user = res.user;
-            console.log(user);
             navigate("/")
             }).catch((err) => {
                alert(err.message)
@@ -58,7 +63,7 @@ const LoginPage = () => {
                   <input ref={enteredpasswordref} className="my-3 px-3 py-2" style={{ background: 'black', borderRadius: '20px', color: 'white', border: '0' }} type="password" placeholder="Password"></input>
                </div>
                <div>
-                  <button className="bg-primary  p-1" style={{ width: '80%', margin: '0 auto', border: '0', borderRadius: '20px' }}>Login</button>
+                  <button  className="bg-primary  p-1" style={{ width: '80%', margin: '0 auto', border: '0', borderRadius: '20px' }}>Login</button>
                   <p onClick={forgetPassword}  className="py-1" style={{ color: 'blue', textDecoration: 'underline' }}>Forget Password</p>
                </div>
             </form>

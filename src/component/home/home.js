@@ -11,12 +11,13 @@ const Home=()=>{
         <div className="container-fluid">
             <div className="row">
                 <div className="col-6">
-                  <p>Welcome to Expense traker</p>
+                  <h6>Welcome to Expense traker!!!</h6>
                 </div>
-                <div className="col-6 text-end">
-                     <p  style={{background:'#E1C16EA',
-                     borderRadius:'20px',padding:' 0 10px'}}>your profile is incomplete <span >
-                    <button onClick={contactHandler} style={{textDecoration:'none',}}>Complete now</button>
+                <div className="col-3"></div>
+                <div className="col-3 text-end ">
+                     <p  style={{background:'rgb(196, 164, 132)',
+                     borderRadius:'20px',fontSize:'14px',padding:' 0 10px'}}>your profile is incomplete .<span >
+                    <button  onClick={contactHandler} style={{textDecoration:'none',margin:'0',padding:'2px 0',fontSize:'14px',border:'0' ,color:'blue',background:'rgb(196, 164, 132)'}}>Complete now</button>
                     </span>
                     </p>
                 </div>
