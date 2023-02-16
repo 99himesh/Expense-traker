@@ -8,8 +8,8 @@ import AddExpenses from "../add Expenses/Addexpenses";
 const ContactDetails = () => {
     const enteredNameRef=useRef();
     const enteredPhotoRef=useRef();
-    const [cancel ,setCancel ]=useState(false);
     const [verify ,setVerify ]=useState(false);
+    const [update,setUpdae]=useState();
     const navigate=useNavigate();
 
     
@@ -87,15 +87,19 @@ const ContactDetails = () => {
         });
         const transformedResponse = await response.json();
         if (response.ok) {
-        //   {ctx.isVarified(true) && 
 
-        } else {
+         setUpdae("Update successfully");
+
+        }
+       
+         else {
             let errorMessage = 'Authentication Failed!';
             if (transformedResponse.error.message) {
                 errorMessage = transformedResponse.error.message;
             }
             throw new Error(errorMessage);
         }
+        
     } catch (err) {
         alert(err.message);
     }
@@ -103,9 +107,7 @@ const ContactDetails = () => {
   
   };
 
- const cancelHandler=()=>{
-    setCancel(true);
- }
+
  
  const verifyEmail=async()=>{
     
@@ -164,16 +166,18 @@ const ContactDetails = () => {
                 <div className="col-9 ">
                     <div>
                         <h5 className="text-start" style={{ display: 'inline-block' }}>Contact Details </h5>
-                        <button onClick={cancelHandler} style={{border:'2px solid red' ,color:'red',background:'white',borderRadius:'5px'}}  className="float-end">cancel</button>
+                       
                     </div>
                     <div>
                         <form className="py-5">
+                            
                             <label style={{ fontWeight: "bold", padding: '0 20px' }} >Full Name:</label>
                             <input style={{ width:'30%'}} ref={enteredNameRef} className="px-1 py-0"></input>
                             <label style={{ fontWeight: "bold", padding: '0 20px' }} >Profile photo URL:</label>
                             <input  style={{ width:'30%'}} ref={enteredPhotoRef} className="px-1 py-0"></input>
                         </form>
                     </div>
+                    <div className="ms-5 text-center" style={{color:'green'}}>{update}</div>
                     <div>
                         <button onClick={updateDetails} style={{background:'rgb(160,82,45)',color:'white',border:'0',borderRadius:'5px'}} >Update</button>
                        { !verify && <button style={{background:'rgb(160,82,45)',color:'white',border:'0',borderRadius:'5px'}}  onClick={verifyEmail} className="mx-5">verify</button>}

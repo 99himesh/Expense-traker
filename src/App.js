@@ -17,9 +17,8 @@ function App() {
 const ifLoggedIn=useSelector(state=>state.auth.loggedIn);
   return (
     <React.Fragment>
-      <Header />
-     
-      <Routes>
+      <Header />     
+         <Routes>
         {ifLoggedIn && <Route path="/contact" element={<ContactDetails/>}></Route>}
        {ifLoggedIn && <Route exact path='/' element={<Home/>}></Route>}
        {  !ifLoggedIn && <Route exact path="/signup" element={<Signup/>}></Route>}
@@ -28,12 +27,8 @@ const ifLoggedIn=useSelector(state=>state.auth.loggedIn);
        { !ifLoggedIn && <Route path="/forget"  element={<ForgetPassword />}></Route>}
         { ifLoggedIn && <Route path="/addexpenses"  element={<AddExpenses />}></Route>
      }
-      </Routes>
-
-
-
-
-    </React.Fragment>)
+       </Routes>
+   </React.Fragment>)
 }
 
 export default App;
