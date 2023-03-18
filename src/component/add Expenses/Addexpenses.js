@@ -117,25 +117,29 @@ let amount =0;
     )
   })
   return (
+<<<<<<< HEAD
     <div className="container-fluid  py-5 ">
+=======
+    <div className="container-fluid py-5 ">
+>>>>>>> 34a0ae11af9157417a187adf565b8fdbd1dc5c21
       <div className="row" >
       <div style={{display:'flex',justifyContent:'end'}}>
         {amount>1000  && <Button onClick={changetheme}>Add PreMium</Button>}
         </div>
         <form onSubmit={submitExpenseHandler}>
           <label className="mx-2">Money spent:-</label>
-          <input  style={{ width: '18%',border:'1px solid green',}} ref={moneyinputRef} className="my-3" type="number" placeholder="monet Spent" ></input>
+          <input  style={{ width: '17%',border:'1px solid green',}} ref={moneyinputRef} className="my-3" type="number" placeholder="monet Spent" ></input>
         
           <label className="mx-2">Description:-</label>
-          <input style={{ width: '18%' }} ref={descriptioninputRef} className="my-3" type="text" placeholder="description"></input>
+          <input style={{ width: '17%' }} ref={descriptioninputRef} className="my-3" type="text" placeholder="description"></input>
         
           <label className="mx-2">Categary:-</label>
-          <select style={{ width: '18%' }} ref={categaryinputRef} className="my-3">
+          <select style={{ width: '17%' }} ref={categaryinputRef} className="my-3">
               <option>Food</option>
               <option>Petrol</option>
               <option>Salary</option>
           </select>
-          <button className="mx-2"   style={{ width: '18%',background:'rgb(160,82,45)',color:'white',border:'0',borderRadius:'5px' }} > Add Expense</button>
+          <button className="mx-2"   style={{ width: '15%',background:'rgb(160,82,45)',color:'white',border:'0',borderRadius:'5px' }} > Add Expense</button>
         </form>
       </div>
       <div className="row py-3"> {itemlist}  </div>

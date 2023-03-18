@@ -1,16 +1,27 @@
 // import logo from './logo.svg';
+// import AuthContext from './component/context/Authcontext';
 import React, { useContext } from 'react';
 import './App.css';
-import Signup from './component/form/signup';
-import LoginPage from './component/form/login';
-import Header from './component/header/header';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import Home from './component/home/home';
-// import AuthContext from './component/context/Authcontext';
-import ContactDetails from './component/ExpenseDetail.js/contactDetail';
-import ForgetPassword from './component/forgetPassword/forgetPassword';
-import AddExpenses from './component/add Expenses/Addexpenses';
 import { useSelector } from 'react-redux';
+// import Home from './component/home/home';
+// import LoginPage from './component/form/login';
+// import Signup from './component/form/signup';
+// import Header from './component/header/header';
+// import ContactDetails from './component/ExpenseDetail.js/contactDetail';
+// import ForgetPassword from './component/forgetPassword/forgetPassword';
+// import AddExpenses from './component/add Expenses/Addexpenses';
+
+const Home = React.lazy(() => import('./component/home/home'));
+const LoginPage = React.lazy(() => import('./component/form/login'));
+const Signup = React.lazy(() => import('./component/home/home'));
+const Header = React.lazy(() => import('./component/header/header'));
+const ContactDetails = React.lazy(() => import('./component/ExpenseDetail.js/contactDetail'));
+const ForgetPassword = React.lazy(() => import('./component/forgetPassword/forgetPassword'));
+const AddExpenses = React.lazy(() => import('./component/add Expenses/Addexpenses'));
+
+
+
 function App() {
 
 //  const ctx= useContext(AuthContext);
