@@ -162,8 +162,8 @@ const ContactDetails = () => {
             </div>
 
             <div className="row">
-                <div className="col-3"></div>
-                <div className="col-9 ">
+                <div className="col-2"></div>
+                <div className="col-10 ">
                     <div>
                         <h5 className="text-start" style={{ display: 'inline-block' }}>Contact Details </h5>
                        

@@ -15,7 +15,6 @@ const AddExpenses = () => {
   const descriptioninputRef = useRef();
   const categaryinputRef = useRef();
  
-
   const readExpense = async () => {
     const response = await axios.get(`/${userid.userId}.json`)
     const allExpenseArr = [];
@@ -28,7 +27,6 @@ const AddExpenses = () => {
     readExpense();
     console.log("rend")
   },[readExpense])
-
   const deleteExpenseHandler = async (key) => {
     const response = await axios.delete(`/${userid.userId}/${key}.json`);
     console.log(key)
@@ -37,7 +35,6 @@ const AddExpenses = () => {
     console.log(newList);
      dispatch(ExpenseAction.replace({List:newList }));
   }
-
   const editExpenseHandler = (key) => {
     const exp=expenseLists.filter((itm) =>{
            return itm.key===key  
@@ -47,9 +44,7 @@ const AddExpenses = () => {
     categaryinputRef.current.value=exp[0].categary;
     console.log(exp[0].key);
     deleteExpenseHandler(exp[0].key);
-
   }
-
   const postData = async (expense) => {
     try {
       const response = await axios.post(`/${expense.uID}.json`, expense)
@@ -70,7 +65,6 @@ const AddExpenses = () => {
     const enteredMoney = moneyinputRef.current.value;
     const enteredDescription = descriptioninputRef.current.value;
     const enteredCategary = categaryinputRef.current.value;
-  
     const id = enteredMoney + enteredDescription;
     const obj = {
       id: id,
@@ -84,7 +78,6 @@ const AddExpenses = () => {
   const changetheme=()=>{
     setcolor(prev=>!prev);
 }
-
 const headers = [
   {
       label: 'Category', key: 'categary'
@@ -104,13 +97,11 @@ const csvLink = {
 let amount =0;
   const itemlist = expenseLists.map((itm) => {
      amount=amount+(+itm.money);
-
-    return (<div className={color?"bg-secondary":"bg-light"}>
+    return (
+    <div className={color?"bg-secondary":"bg-light"}>
           
       <div key={itm.id} >
-      
         <div className="container-fluid d-flex" style={{border:'1px solid red',padding:'5px ',margin:'10px 0'}} >
-       
           <div className="row " style={{display:'inline-block',position:"relative"}}>
           <p>Spent Money :-{itm.money} </p>
           <p> Description :-{itm.description}</p>
@@ -123,45 +114,40 @@ let amount =0;
         </div>
       </div>
       </div>
-
     )
   })
-
   return (
-    <div className="container-fluid py-5">
+    <div className="container-fluid py-5 ">
       <div className="row" >
       <div style={{display:'flex',justifyContent:'end'}}>
         {amount>1000  && <Button onClick={changetheme}>Add PreMium</Button>}
         </div>
-        
         <form onSubmit={submitExpenseHandler}>
           <label className="mx-2">Money spent:-</label>
-          <input  style={{ width: '18%',border:'1px solid green',}} ref={moneyinputRef} className="my-3" type="number" placeholder="monet Spent" ></input>
+          <input  style={{ width: '17%',border:'1px solid green',}} ref={moneyinputRef} className="my-3" type="number" placeholder="monet Spent" ></input>
         
           <label className="mx-2">Description:-</label>
-          <input style={{ width: '18%' }} ref={descriptioninputRef} className="my-3" type="text" placeholder="description"></input>
+          <input style={{ width: '17%' }} ref={descriptioninputRef} className="my-3" type="text" placeholder="description"></input>
         
           <label className="mx-2">Categary:-</label>
-          <select style={{ width: '18%' }} ref={categaryinputRef} className="my-3">
+          <select style={{ width: '17%' }} ref={categaryinputRef} className="my-3">
               <option>Food</option>
               <option>Petrol</option>
               <option>Salary</option>
           </select>
-          <button className="mx-2"   style={{ width: '18%',background:'rgb(160,82,45)',color:'white',border:'0',borderRadius:'5px' }} > Add Expense</button>
+          <button className="mx-2"   style={{ width: '15%',background:'rgb(160,82,45)',color:'white',border:'0',borderRadius:'5px' }} > Add Expense</button>
         </form>
       </div>
-      <div className="row py-3"> {itemlist}
+      <div className="row py-3"> {itemlist}  </div>
+      {expenseLists.length==0 && <h2 className="text-center" style={{color:'red'}}>Please add Expense</h2>}
       <h2>Total Amount:-{amount}</h2>
-      </div>
+    
       <div className="d-flex justify-content-center">
                 <Button variant="outline-danger">
                     <CSVLink {...csvLink} className="text-decoration-none text-black">Download Expenses</CSVLink>
-                    {/* <img src="https://www.lua.org/images/downloadarrow.png" width={20} height={30}></img> */}
-                    {/* <Link download='expenses.csv'>Download Expenses</Link> */}
                 </Button>
             </div>
     </div>
   )
-
 }
 export default AddExpenses;
