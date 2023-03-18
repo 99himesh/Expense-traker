@@ -9,8 +9,6 @@ const LoginHeader=()=>{
     const navigate=useNavigate();
   const dispatch=useDispatch();
     const logOutHandler=()=>{
-        debugger
-        //  ctx.logout();
          dispatch(AuthAction.IsLoggedout())
          navigate("/signup");
        }
